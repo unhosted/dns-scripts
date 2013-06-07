@@ -2,8 +2,7 @@
 #USER=$1
 set -e
 set -x
-whoami
-exit
+
 CONF_DIR=/etc/bind/
 CUSTOMERS_DIR=${CONF_DIR}customers/
 ZONE_DIR=/var/cache/bind/
@@ -36,6 +35,8 @@ $ZONE.$TLD			IN SOA	$ZONE.$TLD admin.un.ht. ( ;FIXME wrong email
 @   NS root.un.ht.
 EOF
 
+chmod u=rw,g=rw,o= ${ZONE_DIR}db.${ZONE}
+
 #creating keyfile
 cat > ${CUSTOMERS_DIR}keyfile-$ZONE.key <<EOF
 key "$ZONE" {
@@ -44,8 +45,9 @@ key "$ZONE" {
 };
 EOF
 
+chmod u=rw,g=rw,o= ${CUSTOMERS_DIR}keyfile-$ZONE.key
 
-rndc addzone $ZONE.$TLD "
+/usr/sbin/rndc addzone $ZONE.$TLD "
 {                      
   type master;              
   file \"db.${ZONE}\"; 
@@ -59,4 +61,4 @@ rndc addzone $ZONE.$TLD "
 
 # restart server
 #/etc/init.d/bind9 restart
-rndc reload
+/usr/sbin/rndc reload

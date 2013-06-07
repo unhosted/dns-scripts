@@ -8,6 +8,8 @@ TLD=un.ht.
 TTL=10
 
 truncate ${CONF_DIR}customers.conf --size 0
+chmod u=rw,g=rw,o= ${CONF_DIR}customers.conf
+chgrp bind ${CONF_DIR}customers.conf
 
 for i in $CUSTOMERS_DIR*.key; do
 echo include \"$i\"\; >> ${CONF_DIR}customers.conf
