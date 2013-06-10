@@ -11,8 +11,7 @@ TLD=un.ht.
 TTL=10
 
 ZONE=$1
-KEY=$2
-ALGORITHM=$3
+ALGORITHM=$2
 
 
 if [ -z "$ALGORITHM" ]; then
@@ -37,16 +36,6 @@ EOF
 
 chmod u=rw,g=rw,o= ${ZONE_DIR}db.${ZONE}
 
-#creating keyfile
-cat > ${CUSTOMERS_DIR}keyfile-$ZONE.key <<EOF
-key "$ZONE" {
-        algorithm $ALGORITHM;
-        secret "$KEY";
-};
-EOF
-
-chmod u=rw,g=rw,o= ${CUSTOMERS_DIR}keyfile-$ZONE.key
-
 /usr/sbin/rndc addzone $ZONE.$TLD "
 {                      
   type master;              
@@ -61,4 +50,5 @@ chmod u=rw,g=rw,o= ${CUSTOMERS_DIR}keyfile-$ZONE.key
 
 # restart server
 #/etc/init.d/bind9 restart
-/usr/sbin/rndc reload
+#/usr/sbin/rndc reload
+# now done in create_zone.sh
