@@ -17,7 +17,7 @@ TMPFILE=$$-keygen.tmp
 
 # have to find out how jobcontrole works in sh script
 
-KEY=$($(cat $TMPFILE).private |grep Key:\ .* | cut -d " " -f 2 )
+KEY=$(cat $(cat $TMPFILE).private |grep Key:\ .* | cut -d " " -f 2 )
 ./create_keyfile.sh $ZONE $KEY
 
 #tidy up
