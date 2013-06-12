@@ -32,6 +32,7 @@ $ZONE.$TLD			IN SOA	$ZONE.$TLD admin.un.ht. ( ;FIXME wrong email
 				600        ; minimum (10 minutes)
 				)
 @   NS root.un.ht.
+@	A	217.11.53.245
 EOF
 
 chmod u=rw,g=rw,o= ${ZONE_DIR}db.${ZONE}
